@@ -1,3 +1,4 @@
 # the module
 node_modules/
 config/keys.js
+.DS_Store
