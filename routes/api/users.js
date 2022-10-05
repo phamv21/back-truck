@@ -5,6 +5,9 @@ const User = require('../../models/User');
 const jwt = require('jsonwebtoken')
 const keys = require('../../config/keys')
 const passport = require('passport')
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
+const { json } = require("body-parser");
 
 // check if the user has login or not
 router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -14,9 +17,13 @@ router.get('/current', passport.authenticate('jwt', {session: false}), (req, res
     email: req.user.email
   })
 })
-router.get("/test", (req, res) => res.json({msg:"This is the users route"}));
 // register or sign up
 router.post('/register', (req, res) => {
+  const { errors, isValid } = validateRegisterInput(req.body);
+
+  if (!isValid) {
+    return res.status(400).json(errors);
+  }
   // Check to make sure nobody has already registered with a duplicate username
   User.findOne({ username: req.body.username })
     .then(user => {
@@ -53,6 +60,11 @@ router.post('/register', (req, res) => {
 })
 // login route
 router.post('/login', (req, res) => {
+  const {errors,isValid} = validateLoginInput(req.body);
+  if(!isValid){
+    return res.status(400).json(errors)
+  }
+
   const username = req.body.username;
   const password = req.body.password;
 
