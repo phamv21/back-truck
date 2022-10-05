@@ -4,10 +4,18 @@ const bcrypt = require('bcryptjs');
 const User = require('../../models/User');
 const jwt = require('jsonwebtoken')
 const keys = require('../../config/keys')
+const passport = require('passport')
 
-
+// check if the user has login or not
+router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
+  res.json({
+    id: req.user.id,
+    username: req.user.username,
+    email: req.user.email
+  })
+})
 router.get("/test", (req, res) => res.json({msg:"This is the users route"}));
-
+// register or sign up
 router.post('/register', (req, res) => {
   // Check to make sure nobody has already registered with a duplicate username
   User.findOne({ username: req.body.username })
@@ -29,7 +37,7 @@ router.post('/register', (req, res) => {
             newUser.password = hash;
             newUser.save()
               .then(user => {
-                const payload = {id: user.id, email: user.email};
+                const payload = {id: user.id, username: user.username, email: user.email};
                 jwt.sign(payload, keys.secretOrKey,{expiresIn: 3600},(err,token)=>{
                   res.json({
                     success: true,
@@ -43,7 +51,7 @@ router.post('/register', (req, res) => {
       }
     })
 })
-
+// login route
 router.post('/login', (req, res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -57,7 +65,7 @@ router.post('/login', (req, res) => {
       bcrypt.compare(password, user.password)
         .then(isMatch => {
           if (isMatch) {
-            const payload = {id: user.id, email: user.email};
+            const payload = {id: user.id, email: user.email, username: user.username};
             jwt.sign(
             payload,
             keys.secretOrKey,
@@ -75,5 +83,7 @@ router.post('/login', (req, res) => {
     })
     })
 })
+
+
 
 module.exports = router;

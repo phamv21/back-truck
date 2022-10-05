@@ -6,13 +6,17 @@ mongoose
   .connect(db, { useNewUrlParser: true})
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch(err => console.log(err));
-
+const bodyParser = require('body-parser');
+const passport = require('passport');
 const users = require("./routes/api/users");
 
 
-app.get("/", (req, res) => res.send("Hello mine"));
+//using passport
+app.use(passport.initialize());
+require('./config/passport')(passport)
 
-const bodyParser = require('body-parser');
+
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // api call after this line
