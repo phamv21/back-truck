@@ -1,5 +1,5 @@
 import React from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate} from "react-router-dom";
 import { connect } from "react-redux";
 
 
@@ -21,7 +21,7 @@ const Protected = ({children,loggedIn}) => {
 
 const mapStateToProps = state => (
     {
-        loggedIn: Boolean(state.session.currentUserId),
+        loggedIn: Boolean(state.session.isAuthenticated),
     }
 )
 
