@@ -5,6 +5,7 @@ export default function Navbar(props) {
     const navLink = props.loggedIn ? (
         <div>
             <h1> loggedin</h1>
+            <button onClick={e => {e.preventDefault(); props.logout();}}>Logout</button>
         </div>
     ) :
     (

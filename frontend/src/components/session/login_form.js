@@ -1,5 +1,5 @@
 import React from 'react'
-import { useState, useEffect } from 'react'
+import { useState,useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 export default function LoginForm(props) {
     const [username,setUsername] = useState('');
@@ -7,18 +7,18 @@ export default function LoginForm(props) {
 
     const navigate = useNavigate();
 
-   
+   useEffect(()=>{
+    if(props.authenticated){
+        navigate('/')
+      }
+   },[props.authenticated])
 
     function handleSubmit(e){
     e.preventDefault();
     const userData = {username,password}
-    props.login(userData).then(res =>{
-      if(props.authenticated){
-        navigate('/')
-      }
-    });
+    props.login(userData)
     };
-    const errorsShow = props.errors.length === 0 ? null : (
+    const errorsShow = ( //props.errors.length === 0 ? null : 
       Object.values(props.errors).map((el,idx) =>(
         <li key={idx}>
           {el}
