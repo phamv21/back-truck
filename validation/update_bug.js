@@ -1,4 +1,4 @@
-
+const {bugServerity, bugStatus} = require('../config/constants')
 const Validator = require('validator');
 const validText = require('./valid-text');
 
@@ -24,11 +24,11 @@ module.exports = function validateUpdateBugInput(data) {
 
  
 
-  if(!Validator.isIn(data.status,['unassigned','assigned','resolved'])){
+  if(!Validator.isIn(data.status,bugStatus)){
     errors.status = 'Invalid status'
   }
 
-  if(!Validator.isIn(data.serverity,['minor','major','crash'])){
+  if(!Validator.isIn(data.serverity,bugServerity)){
     errors.serverity = 'Invalid serverity'
   }
   

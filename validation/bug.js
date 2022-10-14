@@ -1,4 +1,4 @@
-
+const {bugCategory, bugPiority, bugServerity} = require('../config/constants')
 const Validator = require('validator');
 const validText = require('./valid-text');
 
@@ -43,14 +43,14 @@ module.exports = function validateBugInput(data) {
     errors.reproduce = 'Reproduce step should lessser than 3000 characters'
   }
 
-  if(!Validator.isIn(data.category,['ui','authentication','feature','mobile','security','performance','signup','other'])){
+  if(!Validator.isIn(data.category,bugCategory)){
     errors.category = 'Invalid category'
   }
 
-  if(!Validator.isIn(data.piority,['low','normal','high','urgent'])){
+  if(!Validator.isIn(data.piority,bugPiority)){
     errors.piority = 'Invalid piority'
   }
-  if(!Validator.isIn(data.serverity,['minor','major','crash'])){
+  if(!Validator.isIn(data.serverity,bugServerity)){
     errors.serverity = 'Invalid serverity'
   }
   
