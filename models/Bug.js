@@ -1,3 +1,4 @@
+const { ObjectId } = require('mongoose');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const BugSchema = new Schema({
@@ -6,14 +7,23 @@ const BugSchema = new Schema({
         ref:'User',
         require: true,
     },
+    maintainer:{
+        type: Schema.Types.ObjectId,
+        ref:'User'
+    },
+
     project:{
         type: Schema.Types.ObjectId,
         ref: 'Project',
         require: true
     },
+    comments:[{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment'
+    }],
     category:{
         type: String,
-        default:'unclassify'
+        default:'other'
     },
     status:{
         type: String,
@@ -25,9 +35,9 @@ const BugSchema = new Schema({
     },
     severity:{
         type: String,
-        default: 'normal'
+        default: 'minor'
     },
-    title:{
+    summary:{
         type: String,
         require: true,
     },
@@ -35,7 +45,11 @@ const BugSchema = new Schema({
         type: String,
         require: true
     },
-    
+    reproduce:{
+        type: String,
+
+    },
+    timestamps: true
 })
 
-module.exports = Bug = mongoose.model('Bug',BugSchema);
+module.exports = Bug = mongoose.model('Bug',BugSchema)

@@ -9,6 +9,7 @@ mongoose
 const bodyParser = require('body-parser');
 const passport = require('passport');
 const users = require("./routes/api/users");
+const projects = require('./routes/api/projects')
 
 
 //using passport
@@ -22,7 +23,7 @@ app.use(bodyParser.json());
 // api call after this line
 
 app.use("/api/users", users);
-
+app.use("api/projects",projects);
 
 
 
