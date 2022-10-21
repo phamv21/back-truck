@@ -7,11 +7,18 @@ const UserSchema = new Schema({
   },
   username: {
     type: String,
+    index: true,
+    unique: true,
     required: true
   },
   password: {
     type: String,
     required: true
+  },
+  permission: {
+    type: String,
+    required: true,
+    default: 'reporter'
   }
 }, {
   timestamps: true
