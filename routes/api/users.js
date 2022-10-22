@@ -9,8 +9,25 @@ const validateRegisterInput = require('../../validation/register');
 const validateLoginInput = require('../../validation/login');
 const { json } = require("body-parser");
 
-// check if the user has login or not - backend auth 
+// check if the user has login or not - backend auth
 router.get('/current', passport.authenticate('jwt', {session: false}), (req, res) => {
+  res.json({
+    id: req.user.id,
+    username: req.user.username,
+    email: req.user.email
+  })
+})
+
+// get list of the developer and manager(_id)
+router.get('/authorities', passport.authenticate('jwt', {session: false}), async (req, res) => {
+  try{
+    const developers = await User.find({permission:'developer'},'_id username').sort({username:-1}).exec();
+    const managers = await User.find({permission:'manager'},'_id username').sort({username:-1}).exec();
+    return res.json({managers,developers});
+  }
+  catch(err){
+    return res.status(400).json({cannotfindpeople:'People are not available in server'})
+  }
   res.json({
     id: req.user.id,
     username: req.user.username,

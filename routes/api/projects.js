@@ -6,7 +6,7 @@ const passport = require('passport')
 const validateProjectInput = require('../../validation/project');
 const { json } = require("body-parser");
 
-// protect the post route from unauthenticated user, or non manager 
+// protect the post route from unauthenticated user, or non manager
 router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     const {errors,isValid} = validateProjectInput(req.body);
     if(!isValid){
@@ -29,7 +29,7 @@ router.get('/',(req,res)=>{
     .catch(err=> res.status(400).json({noprejectsfound:'No Projects Found'}));
 });
 // show the progress of the projects
-// the logic here is to show the assigned bug to the project 
+// the logic here is to show the assigned bug to the project
 // and count the percent of it has status as finish
 router.get('/:id/progress',async(req,res)=>{
     try{
@@ -41,7 +41,7 @@ router.get('/:id/progress',async(req,res)=>{
     catch(err){
        return res.status(400).json({noprejectsfound:'No Project Found'})
     }
-    
+
 
 })
 //show all the bug in the project
@@ -56,7 +56,7 @@ router.get('/:id/bugs',async(req,res)=>{
     catch(err){
        return res.status(400).json({noprejectsfound:'No Project Found'})
     }
-    
+
 
 })
 
